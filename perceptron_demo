@@ -1,0 +1,8 @@
+%% Show initial setting
+fprintf('Initial value of X and Y is ... (Press any key to continue');
+w = [0.3 -0.1; 0.3 -0.1; 0.3 -0.1; 0.2 -0.1;]
+X = [ 0 0; 0 1; 1 0; 1 1]
+Y = [ 0; 0; 0; 1]
+pause;
+
+[w_final, iter] = perceptron(X, Y, w)
