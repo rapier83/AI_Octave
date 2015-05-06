@@ -9,7 +9,7 @@ clear;
 X = [1 ; 1];
 Y = 0;
 alpha = 0.1;
-iter = 1000;
+iter = 1;
 neuron(1).Theta = [ 0.5 0.9; 0.4 1.0];
 neuron(2).Theta = [ -1.2; 1.1];
 neuron(1).rg = [ 0.8; -0.1];
@@ -22,10 +22,8 @@ neuron(2).layer = [];
 num_layer = size(neuron)(2);
 fprintf('Number of Layers: %d\n',num_layer);
 
-err_report = []
-
 for k = 1:iter
-fprintf('iter %d ',k);
+	fprintf('iter %d ',k);
 
 	%%%%%%%%%% Forward Propagation
 	for i = 1:num_layer
@@ -40,9 +38,8 @@ fprintf('iter %d ',k);
 	output = neuron(num_layer).layer;
 	err = Y - output;
 
-	err_report = [err_report, err]
+	% err_report = [err_report, err]
 	
-	% fprintf('Back Propagationing...  \n');
 	%%%%%%%%%% Backward Propagation
 	y_def = neuron(2).layer .* (1 - neuron(2).layer) .* err;
 
@@ -51,7 +48,6 @@ fprintf('iter %d ',k);
 		neuron(i).dw = [];
 		neuron(i).dt = [];
 	end
-
 	% Caluculate deltas
 	for i = fliplr(1:num_layer)
 		% Set delta
@@ -69,14 +65,18 @@ fprintf('iter %d ',k);
 		end
 
 		% Assign delta
-		neuron(i).dw = (alpha .* layer .* y)';
-		neuron(i).dw = ones(size(neuron(i).Theta)(2),1) * neuron(i).dw;	
+		neuron(i).dw = alpha .* layer .* y;
 		neuron(i).dt = alpha * (-1) * y;
 	end
 
 	%Update Theta and.rg
 	for i = 1:num_layer
-		neuron(i).Theta = neuron(i).Theta + neuron(i).dw;
+		for j = 1:size(neuron(i).Theta)(2)
+			neuron(i).Theta(j,:) = neuron(i).Theta(j,:) + neuron(i).dw(:)';
+		end
+		neuron(i).Theta
+		neuron(i).dw
 		neuron(i).rg = neuron(i).rg + neuron(i).dt;
 	end
+
 end
