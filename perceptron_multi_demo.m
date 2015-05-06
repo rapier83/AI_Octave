@@ -73,7 +73,7 @@ for k = 1:iter
 	%Update Theta and.rg
 	for i = 1:num_layer
 		if size(neuron(i).Theta)(2) == 1
-			neuron(i).Theta == neuron(i).Theta + neuron(i).dw;
+			neuron(i).Theta = neuron(i).Theta + neuron(i).dw;
 		else
 			for j = 1:size(neuron(i).Theta)(2)
 				neuron(i).Theta(j,:) = neuron(i).Theta(j,:) + neuron(i).dw(:)';
