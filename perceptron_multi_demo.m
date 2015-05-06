@@ -9,7 +9,7 @@ clear;
 X = [1 ; 1];
 Y = 0;
 alpha = 0.1;
-iter = 1;
+iter = 1000;
 neuron(1).Theta = [ 0.5 0.9; 0.4 1.0];
 neuron(2).Theta = [ -1.2; 1.1];
 neuron(1).rg = [ 0.8; -0.1];
@@ -20,6 +20,7 @@ neuron(2).layer = [];
 	
 
 num_layer = size(neuron)(2);
+err_report = [];
 fprintf('Number of Layers: %d\n',num_layer);
 
 for k = 1:iter
@@ -71,12 +72,18 @@ for k = 1:iter
 
 	%Update Theta and.rg
 	for i = 1:num_layer
-		for j = 1:size(neuron(i).Theta)(2)
-			neuron(i).Theta(j,:) = neuron(i).Theta(j,:) + neuron(i).dw(:)';
+		if size(neuron(i).Theta)(2) == 1
+			neuron(i).Theta == neuron(i).Theta + neuron(i).dw;
+		else
+			for j = 1:size(neuron(i).Theta)(2)
+				neuron(i).Theta(j,:) = neuron(i).Theta(j,:) + neuron(i).dw(:)';
+			end
 		end
-		neuron(i).Theta
-		neuron(i).dw
+		neuron(i).Theta;
+		neuron(i).dw;
 		neuron(i).rg = neuron(i).rg + neuron(i).dt;
 	end
+	fprintf('error %.4f \n',err);
+	err_report = [err_report,err];
 
 end
